@@ -67,8 +67,18 @@
 					<el-col :span="24">
 						<el-form-item label="通知备注" prop="tongzhibeizhu">
 							<el-input class="list_inp" v-model="form.tongzhibeizhu" placeholder="通知备注"
-                                type="text"
+								type="text"
 								:readonly="!isAdd||disabledForm.tongzhibeizhu?true:false" />
+						</el-form-item>
+					</el-col>
+					<el-col :span="24">
+						<el-form-item label="通知状态" prop="tongzhizhuangtai">
+							<el-select class="list_inp" v-model="form.tongzhizhuangtai" placeholder="通知状态"
+								:disabled="!isAdd||disabledForm.tongzhizhuangtai?true:false">
+								<el-option label="待发送" value="待发送"></el-option>
+								<el-option label="已发送" value="已发送"></el-option>
+								<el-option label="发送失败" value="发送失败"></el-option>
+							</el-select>
 						</el-form-item>
 					</el-col>
 
@@ -117,6 +127,7 @@
         zhanghao : false,
         shouji : false,
         tongzhibeizhu : false,
+        tongzhizhuangtai : false,
 	})
 	const formVisible = ref(false)
 	const isAdd = ref(false)
@@ -161,6 +172,7 @@
 			zhanghao: '',
 			shouji: '',
 			tongzhibeizhu: '',
+			tongzhizhuangtai: '待发送',
 		}
 	}
 	//获取info
@@ -243,6 +255,11 @@
 				if(x=='tongzhibeizhu'){
 					form.value.tongzhibeizhu = row[x];
 					disabledForm.value.tongzhibeizhu = true;
+					continue;
+				}
+				if(x=='tongzhizhuangtai'){
+					form.value.tongzhizhuangtai = row[x];
+					disabledForm.value.tongzhizhuangtai = true;
 					continue;
 				}
 			}

@@ -129,16 +129,29 @@
 					</template>
 				</el-table-column>
 				<el-table-column min-width="140"
-					:resizable='true'
-					:sortable='true'
-					align="left"
-					header-align="left"
-					prop="tongzhibeizhu"
-					label="通知备注">
-					<template #default="scope">
-						{{scope.row.tongzhibeizhu}}
-					</template>
-				</el-table-column>
+						:resizable='true'
+						:sortable='true'
+						align="left"
+						header-align="left"
+						prop="tongzhibeizhu"
+						label="通知备注">
+						<template #default="scope">
+							{{scope.row.tongzhibeizhu}}
+						</template>
+					</el-table-column>
+					<el-table-column min-width="140"
+						:resizable='true'
+						:sortable='true'
+						align="left"
+						header-align="left"
+						prop="tongzhizhuangtai"
+						label="通知状态">
+						<template #default="scope">
+							<el-tag v-if="scope.row.tongzhizhuangtai === '待发送'" type="warning">{{scope.row.tongzhizhuangtai}}</el-tag>
+							<el-tag v-else-if="scope.row.tongzhizhuangtai === '已发送'" type="success">{{scope.row.tongzhizhuangtai}}</el-tag>
+							<el-tag v-else type="danger">{{scope.row.tongzhizhuangtai}}</el-tag>
+						</template>
+					</el-table-column>
 				<el-table-column label="操作" width="300" :resizable='true' :sortable='true' align="left" header-align="left">
 					<template #default="scope">
 						<el-button class="view_btn" type="info" v-if=" btnAuth('jiuzhentongzhi','查看')" @click="infoClick(scope.row.id)">
