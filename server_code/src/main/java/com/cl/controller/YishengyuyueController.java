@@ -29,6 +29,8 @@ import com.cl.entity.view.YishengyuyueView;
 
 import com.cl.service.YishengyuyueService;
 import com.cl.service.TokenService;
+import com.cl.service.JiuzhentongzhiService;
+import com.cl.entity.JiuzhentongzhiEntity;
 import com.cl.utils.PageUtils;
 import com.cl.utils.R;
 import com.cl.utils.MPUtil;
@@ -47,6 +49,9 @@ import com.cl.utils.CommonUtil;
 public class YishengyuyueController {
     @Autowired
     private YishengyuyueService yishengyuyueService;
+    
+    @Autowired
+    private JiuzhentongzhiService jiuzhentongzhiService;
 
 
 
@@ -190,6 +195,21 @@ public class YishengyuyueController {
             yishengyuyue.setSfsh(sfsh);
             yishengyuyue.setShhf(shhf);
             list.add(yishengyuyue);
+            
+            // 当审核通过时，创建就诊通知 是暂时中文，后期改成英语
+            if("是".equals(sfsh)) {
+                JiuzhentongzhiEntity tongzhi = new JiuzhentongzhiEntity();
+                tongzhi.setTongzhibianhao(System.currentTimeMillis() + "");
+                tongzhi.setYishengzhanghao(yishengyuyue.getYishengzhanghao());
+                tongzhi.setDianhua(yishengyuyue.getDianhua());
+                tongzhi.setJiuzhenshijian(yishengyuyue.getYuyueshijian());
+                tongzhi.setTongzhishijian(new Date());
+                tongzhi.setZhanghao(yishengyuyue.getZhanghao());
+                tongzhi.setShouji(yishengyuyue.getShouji());
+                tongzhi.setTongzhibeizhu("预约审核通过，您的就诊时间为：" + yishengyuyue.getYuyueshijian());
+                tongzhi.setTongzhizhuangtai("待发送");
+                jiuzhentongzhiService.insert(tongzhi);
+            }
         }
         yishengyuyueService.updateBatchById(list);
         return R.ok();
